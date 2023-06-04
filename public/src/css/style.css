@@ -1,0 +1,77 @@
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 100%;
+  @media (max-width: 75em) {
+    font-size: 75%;
+  }
+
+  @media (max-width: 56.25em) {
+    font-size: 62.5%;
+  }
+
+  @media (max-width: 37.5em) {
+    font-size: 50%;
+  }
+}
+
+body {
+  box-sizing: border-box;
+  font-size: 1rem;
+  color: #777;
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+}
+
+.logo__container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo__header {
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+}
+
+.main__nav {
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+.main__nav__items {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+}
+
+.main__nav__link {
+  font-size: 1.8rem;
+  color: #777;
+  text-decoration: none;
+  transition: color 0.5s ease-in-out;
+}
+
+.main__nav__link:hover {
+  color: #000;
+}
+
+#installPWA {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 1s ease-in-out;
+}

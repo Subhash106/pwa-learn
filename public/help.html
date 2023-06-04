@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>PWA Basics</title>
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <script src="/src/js/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav class="main__nav">
+        <div class="logo__container">
+          <img class="logo__header" src="/src/images/icons/72.png" alt="Logo" />
+          <span>PWAGram</span>
+        </div>
+        <ul class="main__nav__items">
+          <li class="main__nav__item">
+            <a class="main__nav__link" href="/"> Home</a>
+          </li>
+          <li class="main__nav__item">
+            <a class="main__nav__link" href="/help"> Help</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <h1>Welcome to PWAGarm help!</h1>
+
+      <button id="installPWA">Install the app</button>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores vel
+        iste assumenda nobis molestias nisi, voluptatem aperiam tempore nihil
+        aspernatur, id pariatur porro ab obcaecati asperiores fuga corporis
+        placeat tenetur.
+      </p>
+    </div>
+
+    <script>
+      let defferedPrompt;
+      const installPWAButton = document.getElementById("installPWA");
+
+      function showInstallPromotion() {
+        console.log("showInstallPromotion shown");
+        installPWAButton.style.visibility = "visible";
+        installPWAButton.style.opacity = 1;
+      }
+
+      function hideInstallPromotion() {
+        console.log("showInstallPromotion hidden");
+        installPWAButton.style.visibility = "hidden";
+        installPWAButton.style.opacity = 0;
+      }
+
+      window.addEventListener("beforeinstallprompt", function (event) {
+        event.preventDefault();
+        console.log("beforeinstallprompt occured");
+        defferedPrompt = event;
+
+        showInstallPromotion();
+      });
+
+      installPWAButton.addEventListener("click", async function (event) {
+        hideInstallPromotion();
+        defferedPrompt.prompt();
+
+        const { outcome } = defferedPrompt.userChoice;
+
+        console.log("user choose: ", outcome);
+
+        defferedPrompt = null;
+      });
+
+      window.addEventListener("appinstalled", function (event) {
+        hideInstallPromotion();
+        defferedPrompt = null;
+
+        console.log("PWA was installed");
+      });
+    </script>
+  </body>
+</html>
