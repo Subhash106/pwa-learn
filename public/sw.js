@@ -1,17 +1,19 @@
-const STATIC_CACHE = "STATIC_CACHE";
-const DYNAMIC_CACHE = "DYNAMIC_CACHE";
+const STATIC_CACHE = "STATIC_CACHE_V3";
+const DYNAMIC_CACHE = "DYNAMIC_CACHE_V3";
+const ASSESTS_TO_CACHE = [
+  "/",
+  "/index.html",
+  "offline.html",
+  "/src/js/app.js",
+  "/src/css/style.css",
+  "/manifest.json",
+];
 
 self.addEventListener("install", function (event) {
   console.log("Service worker installed", event);
   event.waitUntil(
     caches.open(STATIC_CACHE).then((cache) => {
-      cache.addAll([
-        "/src/js/app.js",
-        "/src/css/style.css",
-        "/index.html",
-        "/",
-        "/manifest.json",
-      ]);
+      cache.addAll(ASSESTS_TO_CACHE);
     })
   );
 });
@@ -42,13 +44,18 @@ self.addEventListener("fetch", function (event) {
       if (response) {
         return response;
       } else {
-        return fetch(event.request).then((res) => {
-          return caches.open(DYNAMIC_CACHE).then((cache) => {
-            cache.put(event.request.url, res.clone());
-
-            return res;
+        return fetch(event.request)
+          .then((res) => {
+            return caches.open(DYNAMIC_CACHE).then((cache) => {
+              cache.put(event.request.url, res.clone());
+              return res;
+            });
+          })
+          .catch(() => {
+            return caches.open(STATIC_CACHE).then((cache) => {
+              return cache.match("/offline.html");
+            });
           });
-        });
       }
     })
   );
