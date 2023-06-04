@@ -44,6 +44,13 @@ body {
   height: 44px;
 }
 
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #fff;
+}
+
 .main__nav {
   padding: 1rem;
   display: flex;
@@ -74,4 +81,11 @@ body {
   visibility: hidden;
   opacity: 0;
   transition: all 1s ease-in-out;
+}
+
+.offline-content-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30rem;
 }
