@@ -1,5 +1,5 @@
-const STATIC_CACHE = "STATIC_CACHE_V3";
-const DYNAMIC_CACHE = "DYNAMIC_CACHE_V3";
+const STATIC_CACHE = "STATIC_CACHE_V6";
+const DYNAMIC_CACHE = "DYNAMIC_CACHE_V6";
 const ASSESTS_TO_CACHE = [
   "/",
   "/index.html",
@@ -37,26 +37,62 @@ self.addEventListener("activate", function (event) {
   return self.clients.claim();
 });
 
+//Cache with Network fallback
+// self.addEventListener("fetch", function (event) {
+//   console.log("fetching...", event);
+//   event.respondWith(
+//     caches.match(event.request).then((response) => {
+//       if (response) {
+//         return response;
+//       } else {
+//         return fetch(event.request)
+//           .then((res) => {
+//             return caches.open(DYNAMIC_CACHE).then((cache) => {
+//               cache.put(event.request.url, res.clone());
+//               return res;
+//             });
+//           })
+//           .catch(() => {
+//             return caches.open(STATIC_CACHE).then((cache) => {
+//               return cache.match("/offline.html");
+//             });
+//           });
+//       }
+//     })
+//   );
+// });
+
+//Cache only
+// self.addEventListener("fetch", function (event) {
+//   event.respondWith(caches.match(event.request));
+// });
+
+//Network only
+// self.addEventListener("fetch", function (event) {
+//   event.respondWith(fetch(event.request));
+// });
+
+// Network with Cache fallback
 self.addEventListener("fetch", function (event) {
-  console.log("fetching...", event);
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      if (response) {
-        return response;
-      } else {
-        return fetch(event.request)
-          .then((res) => {
-            return caches.open(DYNAMIC_CACHE).then((cache) => {
-              cache.put(event.request.url, res.clone());
-              return res;
-            });
-          })
-          .catch(() => {
+    fetch(event.request)
+      .then((res) => {
+        if (res.ok) {
+          return res;
+        }
+
+        throw new Error();
+      })
+      .catch(() => {
+        return caches.match(event.request).then((response) => {
+          if (response) {
+            return response;
+          } else {
             return caches.open(STATIC_CACHE).then((cache) => {
               return cache.match("/offline.html");
             });
-          });
-      }
-    })
+          }
+        });
+      })
   );
 });
